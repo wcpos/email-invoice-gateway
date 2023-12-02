@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce POS Invoice Payment Gateway
  * Plugin URI: https://github.com/kilbot/wcpos-email-invoice
  * Description: Send an email to the customer with a link to pay for the order.
- * Version: 0.0.1
+ * Version: 0.0.2
  * Author: kilbot
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,7 +26,7 @@ function woocommerce_custom_gateway_init() {
     class WCPOS_Email_Invoice extends WC_Payment_Gateway {
 
         public function __construct() {
-            $this->id = 'custom_gateway';
+            $this->id = 'pos_email_invoice';
             $this->icon = ''; // URL of the icon that will be displayed on checkout page near your gateway name
             $this->has_fields = false;
             $this->method_title = 'Custom Gateway';
@@ -70,7 +70,7 @@ function woocommerce_custom_gateway_init() {
           $order = wc_get_order($order_id);
       
           // Mark as on-hold (we're awaiting the payment)
-          $order->update_status('on-hold', __('Awaiting custom payment', 'wc-custom-gateway'));
+          $order->update_status('on-hold', __('Awaiting custom payment. ', 'wc-custom-gateway'));
       
           // Reduce stock levels
           wc_reduce_stock_levels($order_id);
@@ -82,7 +82,10 @@ function woocommerce_custom_gateway_init() {
       
           // Ensure the email class exists and send the email
           if (!empty($emails) && isset($emails[$email_to_send])) {
-              $emails[$email_to_send]->trigger($order->get_id(), $order);
+            $emails[$email_to_send]->trigger($order->get_id(), $order);
+            $order->add_order_note(__('Customer invoice email sent via POS. ', 'wc-custom-gateway'));
+          } else {
+            $order->add_order_note(__('Failed to send customer invoice email. ', 'wc-custom-gateway'));
           }
       
           // Return thankyou redirect

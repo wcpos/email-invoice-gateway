@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce POS Invoice Payment Gateway
  * Plugin URI: https://github.com/kilbot/wcpos-email-invoice
  * Description: Send an email to the customer with a link to pay for the order.
- * Version: 0.0.2
+ * Version: 0.0.3
  * Author: kilbot
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -77,7 +77,7 @@ function woocommerce_custom_gateway_init() {
       
           // Trigger the 'email customer invoice' action
           $mailer = WC()->mailer();
-          $email_to_send = 'customer_invoice';
+          $email_to_send = 'WC_Email_Customer_Invoice';
           $emails = $mailer->get_emails();
       
           // Ensure the email class exists and send the email

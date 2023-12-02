@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce POS Invoice Payment Gateway
  * Plugin URI: https://github.com/kilbot/wcpos-email-invoice
  * Description: Send an email to the customer with a link to pay for the order.
- * Version: 0.0.3
+ * Version: 0.0.4
  * Author: kilbot
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -69,8 +69,8 @@ function woocommerce_custom_gateway_init() {
         public function process_payment($order_id) {
           $order = wc_get_order($order_id);
       
-          // Mark as on-hold (we're awaiting the payment)
-          $order->update_status('on-hold', __('Awaiting custom payment. ', 'wc-custom-gateway'));
+          // Mark as pending (we're awaiting the payment)
+          $order->update_status('pending', __('Awaiting custom payment. ', 'wc-custom-gateway'));
       
           // Reduce stock levels
           wc_reduce_stock_levels($order_id);

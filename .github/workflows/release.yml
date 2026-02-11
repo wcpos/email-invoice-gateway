@@ -45,7 +45,7 @@ jobs:
       - name: Build and upload ZIP
         if: steps.check_version.outputs.release == 'true'
         run: |
-          zip -r woocommerce-pos-email-invoice-gateway.zip . -x "*.git*"
-          gh release upload v${{ env.VERSION }} woocommerce-pos-email-invoice-gateway.zip --clobber
+          zip -r email-invoice-gateway.zip . -x "*.git*"
+          gh release upload v${{ env.VERSION }} email-invoice-gateway.zip --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

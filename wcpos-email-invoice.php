@@ -5,6 +5,7 @@
  * Description: Send an invoice email to the customer with a link to pay for the order.
  * Version: 0.0.10
  * Author: kilbot
+ * Update URI:  https://github.com/wcpos/email-invoice-gateway
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: woocommerce-pos-email-invoice-gateway

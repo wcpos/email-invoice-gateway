@@ -78,9 +78,20 @@ function woocommerce_pos_email_invoice_gateway_init() {
 		}
 
 		public function validate_fields() {
+			// The notice names the field so WooCommerce POS 2.0 shows it under the input; on the
+			// Legacy form and in 1.10 it is an ordinary checkout notice.
+			$field = array( 'id' => 'woocommerce_pos_invoice_email_address' );
 			if ( ! isset( $_POST['woocommerce_pos_invoice_email_address'] ) || empty( $_POST['woocommerce_pos_invoice_email_address'] ) ) {
-					wc_add_notice( __( 'Please enter an email address.', 'wcpos-email-invoice' ), 'error' );
+				wc_add_notice( __( 'Please enter an email address.', 'woocommerce-pos-email-invoice-gateway' ), 'error', $field );
+				return false;
 			}
+			// sanitize_email() turns an invalid address into '' in process_payment(), which would
+			// send nothing and, with the checkbox ticked, blank the billing email.
+			if ( ! is_email( wp_unslash( $_POST['woocommerce_pos_invoice_email_address'] ) ) ) {
+				wc_add_notice( __( 'Please enter a valid email address.', 'woocommerce-pos-email-invoice-gateway' ), 'error', $field );
+				return false;
+			}
+			return true;
 		}
 
 		public function payment_fields() {

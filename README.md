@@ -12,7 +12,7 @@
 
 ### WooCommerce POS 2.0
 
-On WooCommerce POS 2.0 the gateway declares its email field, the *Save email to billing address* checkbox and a **Send invoice** button to the POS, which draws them with its own controls on the tender screen and runs the gateway with the values entered. The order is left *Pending payment* with an *Awaiting customer* mark until the customer pays through the emailed link; the POS can send the invoice again or cancel it from Orders. On POS 1.10 and on the Legacy tab the gateway's own form is shown as before.
+On WooCommerce POS 2.0 the gateway declares its email field, the *Save email to billing address* checkbox and a **Send invoice** button to the POS, which draws them with its own controls on the tender screen and runs the gateway with the values entered. The order is left *Pending payment* with an *Awaiting customer* mark until the customer pays through the emailed link; the POS can send the invoice again or cancel it from Orders. On POS 1.10, and on a 2.0 app that cannot draw the declared fields, the gateway's own form is shown on the Legacy tab as before.
 
 ### Screenshots
 

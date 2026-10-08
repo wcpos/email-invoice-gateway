@@ -186,4 +186,66 @@ function woocommerce_pos_email_invoice_gateway_init() {
 			return $methods;
 		}
 	);
+
+	/**
+	 * Declare the gateway to WooCommerce POS 2.0 (payments contract 1.2).
+	 *
+	 * The POS draws the declared components with its own controls, posts their values under
+	 * the same keys payment_fields() uses, and runs process_payment() with them in $_POST, so
+	 * validate_fields() and process_payment() above serve both paths unchanged. payment_fields()
+	 * stays for POS 1.10 and the Legacy tab. Neither filter exists before POS 2.0, where both
+	 * are simply never called.
+	 */
+	add_filter(
+		'wcpos_payment_method_capture_mode',
+		function ( $mode, $gateway ) {
+			return 'wcpos_email_invoice' === $gateway->id ? 'gateway' : $mode;
+		},
+		10,
+		2
+	);
+
+	add_filter(
+		'wcpos_payment_method_fields',
+		function ( $fields, $gateway ) {
+			if ( 'wcpos_email_invoice' !== $gateway->id ) {
+				return $fields;
+			}
+
+			$components = array();
+			if ( '' !== trim( (string) $gateway->description ) ) {
+				$components[] = array(
+					'component' => 'note',
+					'text'      => $gateway->description,
+				);
+			}
+			$components[] = array(
+				'component' => 'field',
+				'id'        => 'woocommerce_pos_invoice_email_address',
+				'input'     => 'email',
+				'label'     => __( 'Email address', 'woocommerce-pos-email-invoice-gateway' ),
+				'required'  => true,
+				'default'   => '',
+				'prefill'   => 'order.billing.email',
+			);
+			$components[] = array(
+				'component' => 'checkbox',
+				'id'        => 'woocommerce_pos_save_billing_email',
+				'label'     => __( 'Save email to billing address', 'woocommerce-pos-email-invoice-gateway' ),
+				'default'   => false,
+				'prefill'   => null,
+			);
+
+			return array(
+				'schema'     => 1,
+				'verb'       => array(
+					'kind'  => 'send',
+					'label' => __( 'Send invoice', 'woocommerce-pos-email-invoice-gateway' ),
+				),
+				'components' => $components,
+			);
+		},
+		10,
+		2
+	);
 }

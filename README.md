@@ -10,6 +10,10 @@
 4. Go to `WP Admin > WooCommerce POS > Settings > Checkout > enable` the WooCommerce POS Invoice Payment Gateway.
 <img width="743" alt="Screenshot 2024-06-20 at 9 38 00 PM" src="https://github.com/wcpos/email-invoice-gateway/assets/639807/0cd46428-252a-4742-9613-7a98687746df">
 
+### WooCommerce POS 2.0
+
+On WooCommerce POS 2.0 the gateway declares its email field, the *Save email to billing address* checkbox and a **Send invoice** button to the POS, which draws them with its own controls on the tender screen and runs the gateway with the values entered. The order is left *Pending payment* with an *Awaiting customer* mark until the customer pays through the emailed link; the POS can send the invoice again or cancel it from Orders. On POS 1.10 and on the Legacy tab the gateway's own form is shown as before.
+
 ### Screenshots
 
 1. Gateway in the POS, the email will be populated from the order. If Guest order, you can enter an email address and (optionally) save to the order billing address.
